@@ -1,3 +1,12 @@
+<?php
+/**
+* @var int $nbMessage
+ * @var string $image
+ * @var int $nbNotification
+ * @var int $nbTasks
+ * @var string $login
+ */
+?>
 <div class="navbar-custom-menu">
     <ul class="nav navbar-nav">
         <!-- Messages: style can be found in dropdown.less-->

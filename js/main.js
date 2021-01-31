@@ -1,23 +1,6 @@
 function removeProfile(){
     $('#infoForm').remove();
 }
-/*
-function removeModifAdress(){
-    $('#updateAdressForm').remove();
-}
-
-
-function removeModifAdressFacturation(){
-    $('#updateAdressBillForm').remove();
-}
-
-function removeNewAdress() {
-    $('#newLocalAdressForm').remove();
-}
-
-function removeNewAdressFacturation() {
-    $('#newLBillAdressForm').remove();
-}*/
 
 function removeElement(elt){
     return function (){

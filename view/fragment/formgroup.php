@@ -1,4 +1,11 @@
 <?php
+/**
+ * @var bool $error
+ * @var string $id
+ * @var string $label
+ * @var string $value
+ * @var string $name
+ */
 if ($error){
     echo "<div class='form-group has-error'>";
     } else {

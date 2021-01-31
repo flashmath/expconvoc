@@ -83,6 +83,7 @@ function initTableOrders(){
     })*/
 }
 
+/*
 function getOrdersDesk(){
     $.ajax({
         url: "index.php?admin/getOrderDesk",
@@ -112,7 +113,7 @@ function getImportDesk(){
             }
         }
     })
-}
+}*/
 
 function getAdminMainDesk(){
     $.ajax({

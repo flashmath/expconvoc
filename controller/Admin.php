@@ -23,74 +23,7 @@ class Admin extends Controller
         return $this->getMainDeskAction();
     }
 
-    public function getOrdersAction($request){
-        //$login = $_SESSION['login'];
-        //$image = "img/avatar6.jpg";
-
-
-        $orderManager = new \DIU\Logixee\Model\OrderManager();
-
-        $draw = $_GET['draw'];
-        $row =  $_GET['start'];
-        $rowperpage = $_GET['length'];
-
-       // echo ($draw);
-        //die();
-
-        //$length = $row;
-
-        $length = $orderManager->getNbOrders();
-        $orders = $orderManager->getOrders($row,$rowperpage);
-
-        $data=array();
-
-        foreach ($orders as $order){
-            $data[] = array(
-                "id" => $order['IdOrder'],
-                "nom" => $order['denomination'],
-                "siren" => $order['siren'],
-                "ville" => $order['localVille']
-            );
-        }
-
-        $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $length,
-            "recordsFiltered" => $length,
-            "data" => $data
-        );
-
-        //$response = array();
-
-       /* $return_arr = array(
-            "status" => 'ok',
-            "content" => $response
-        );*/
-
-        return json_encode($response);
-    }
-
-    public function getImportDeskAction(){
-        $login = $_SESSION['login'];
-        $image = "img/avatar6.jpg";
-
-        $items= array();
-        array_push($items,itemView::itemMenu("","#","fa-address-card","Caractéristiques", 'getAdminMainDesk();'));
-        array_push($items,itemView::itemMenu("active","#","fa-file-import","Importations", ));
-        $sidebar = itemView::mainSidebar($image,$login,$items);
-
-        ob_start();
-        require "view/admin/adminImportDeskView.php";
-        $content=ob_get_clean();
-        $return_arr = array(
-            "status" => 'ok',
-            "content" => $content,
-            "sidebar" => $sidebar
-        );
-
-        return json_encode($return_arr);
-    }
-
+    /*
     public function getAdminDeskAction(){
         $login = $_SESSION['login'];
         $image = "img/avatar6.jpg";
@@ -109,47 +42,15 @@ class Admin extends Controller
 
         return json_encode($return_arr);
 
-    }
+    }*/
 
     private function adminDesk(){
         $login = $_SESSION['login'];
         $image = "img/avatar6.jpg";
-        /*
-        $orderManager = new \DIU\Logixee\Model\OrderManager();
-        $countOrder = $orderManager->getNbOrders();
 
-        $clientManager = new \DIU\Logixee\Model\ClientManager();
-        $countClient = $clientManager->getNbCients();
-
-        $driverManager = new \DIU\Logixee\Model\DriverManager();
-        $countDriver = $driverManager->getNbDrivers();
-
-        */
         ob_start();
         require "view/admin/adminDeskView.php";
         return ob_get_clean();
-
-    }
-
-    public function getOrderDeskAction(){
-        $login = $_SESSION['login'];
-        $image = "img/avatar6.jpg";
-
-        $items= array();
-        array_push($items,itemView::itemMenu("","#","fa-address-card","Caractéristiques", 'getAdminMainDesk();'));
-        array_push($items,itemView::itemMenu("active","#","fa-industry","Distributeurs", ""));
-        $sidebar = itemView::mainSidebar($image,$login,$items);
-
-        ob_start();
-        require "view/admin/adminOrderDeskView.php";
-        $content=ob_get_clean();
-        $return_arr = array(
-            "status" => 'ok',
-            "content" => $content,
-            "sidebar" => $sidebar
-        );
-
-        return json_encode($return_arr);
 
     }
 
@@ -181,11 +82,9 @@ class Admin extends Controller
         $login = $_SESSION['login'];
         $image = "img/avatar6.jpg";
 
-        //$filename ="";
         $error=array();
 
         if(isset($_FILES['nomenclatureInputFile']['name'])){
-            //$filename = $_FILES['nomenclatureInputFile']['name'];
 
             $nomenclatureManager = new \DIU\Logixee\Model\NomenclatureManager();
 

@@ -3,6 +3,8 @@
 
 namespace DIU\Logixee\Model;
 
+use \PDO;
+
 require_once 'modele/Manager.php';
 
 
@@ -59,8 +61,45 @@ class NomenclatureManager extends Manager
         }
     }
 
-    public function insertNomenclature(&$error,$code,$formation,$libelle,$edition = null,$rattachement = null){
+    private function editNomenclature(&$error,$sql,$code,$formation,$libelle,$edition = null,$rattachement = null){
         $datas = array(
+            "code" => $code,
+            "formation" => $formation,
+            "libelle" => $libelle
+        );
+
+        if (isset($edition) && ($edition!="")){
+            $datas["edition"]=$edition;
+        }
+
+        if (isset($rattachement)){
+            $datas["rattachement"]=$rattachement;
+        }
+
+        if (!($error = $this->validateData($datas))) {
+            $req = $this->db->prepare($sql);
+            $req->bindValue(":code",$code);
+            $req->bindValue(":formation",$formation);
+            $req->bindValue(":libelle",$libelle);
+            if ($edition==""){
+                $req->bindValue(":edition",null,PDO::PARAM_NULL);
+            } else {
+                $req->bindValue(":edition",$edition);
+            }
+            if ($rattachement==""){
+                $req->bindValue(":rattachement",null,PDO::PARAM_NULL);
+            } else {
+                $req->bindValue(":rattachement",$rattachement);
+            }
+            if (!$req->execute()) {
+                print_r($req->errorInfo());
+                die("message ici");
+            }
+        }
+    }
+
+    public function insertNomenclature(&$error,$code,$formation,$libelle,$edition = null,$rattachement = null){
+        /*$datas = array(
             "code" => $code,
             "formation" => $formation,
             "libelle" => $libelle
@@ -77,27 +116,30 @@ class NomenclatureManager extends Manager
         if (!($error = $this->validateData($datas))) {
             $sql = "INSERT INTO mefs (code_mef,formation,libelle_long,libelle_edition,mef_rattachement) VALUES (:code,:formation,:libelle,:edition,:rattachement)";
             $req = $this->db->prepare($sql);
-            $req->bindValue(":code",$code, \PDO::PARAM_STR);
-            $req->bindValue(":formation",$formation,\PDO::PARAM_STR);
-            $req->bindValue(":libelle",$libelle,\PDO::PARAM_STR);
+            $req->bindValue(":code",$code);
+            $req->bindValue(":formation",$formation);
+            $req->bindValue(":libelle",$libelle);
             if ($edition==""){
-                $req->bindValue(":edition",null,\PDO::PARAM_NULL);
+                $req->bindValue(":edition",null,PDO::PARAM_NULL);
             } else {
-                $req->bindValue(":edition",$edition,\PDO::PARAM_STR);
+                $req->bindValue(":edition",$edition);
             }
             if ($rattachement==""){
-                $req->bindValue(":rattachement",null,\PDO::PARAM_NULL);
+                $req->bindValue(":rattachement",null,PDO::PARAM_NULL);
             } else {
-                $req->bindValue(":rattachement",$rattachement,\PDO::PARAM_STR);
+                $req->bindValue(":rattachement",$rattachement);
             }
             if (!$req->execute()) {
                 print_r($req->errorInfo());
                 die("message ici");
             }
-        }
+        }*/
+        $sql = "INSERT INTO mefs (code_mef,formation,libelle_long,libelle_edition,mef_rattachement) VALUES (:code,:formation,:libelle,:edition,:rattachement)";
+        $this->editNomenclature($error,$sql,$code,$formation,$libelle,$edition,$rattachement);
     }
 
     public function updateNomenclature(&$error,$code,$formation,$libelle,$edition = null,$rattachement = null){
+        /*
         $datas = array(
             "code" => $code,
             "formation" => $formation,
@@ -115,24 +157,27 @@ class NomenclatureManager extends Manager
         if (!($error = $this->validateData($datas))) {
             $sql = "UPDATE mefs SET formation = :formation ,libelle_long = :libelle ,libelle_edition = :edition, mef_rattachement = :rattachement WHERE code_mef = :code";
             $req = $this->db->prepare($sql);
-            $req->bindValue(":code",$code, \PDO::PARAM_STR);
-            $req->bindValue(":formation",$formation,\PDO::PARAM_STR);
-            $req->bindValue(":libelle",$libelle,\PDO::PARAM_STR);
+            $req->bindValue(":code",$code);
+            $req->bindValue(":formation",$formation);
+            $req->bindValue(":libelle",$libelle);
             if ($edition==""){
-                $req->bindValue(":edition",null,\PDO::PARAM_NULL);
+                $req->bindValue(":edition",null,PDO::PARAM_NULL);
             } else {
-                $req->bindValue(":edition",$edition,\PDO::PARAM_STR);
+                $req->bindValue(":edition",$edition);
             }
             if ($rattachement==""){
-                $req->bindValue(":rattachement",null,\PDO::PARAM_NULL);
+                $req->bindValue(":rattachement",null,PDO::PARAM_NULL);
             } else {
-                $req->bindValue(":rattachement",$rattachement,\PDO::PARAM_STR);
+                $req->bindValue(":rattachement",$rattachement);
             }
             if (!$req->execute()) {
                 print_r($req->errorInfo());
                 die("message ici");
             }
         }
+        */
+        $sql = "UPDATE mefs SET formation = :formation ,libelle_long = :libelle ,libelle_edition = :edition, mef_rattachement = :rattachement WHERE code_mef = :code";
+        $this->editNomenclature($error,$sql,$code,$formation,$libelle,$edition,$rattachement);
     }
 
     public function exist($code): bool{

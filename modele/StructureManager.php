@@ -12,7 +12,7 @@ class StructureManager extends Manager
         parent::__construct();
     }
 
-    public function isValideCode($code,&$error){
+    public function isValideCode($code,&$error): bool{
         if (strlen($code)<=10){
             return true;
         } else {
@@ -21,7 +21,7 @@ class StructureManager extends Manager
         }
     }
 
-    public function isValideLibelle($lib,&$error){
+    public function isValideLibelle($lib,&$error): bool{
         if (strlen($lib)<=100){
             return true;
         } else {

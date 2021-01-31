@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var string $filename
+ * @var string $cont
+ **/
+?>
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Nomenclatures</h3>

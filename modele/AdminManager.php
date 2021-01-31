@@ -11,5 +11,4 @@ class AdminManager extends Manager
         $db = $this->dbConnect();
     }
 
-
 }

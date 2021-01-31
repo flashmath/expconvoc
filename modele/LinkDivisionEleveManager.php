@@ -12,7 +12,7 @@ class LinkDivisionEleveManager extends Manager
         parent::__construct();
     }
 
-    public function isValideDivision($code,&$error){
+    public function isValideDivision($code,&$error): bool{
         if (strlen($code)<=10){
             return true;
         } else {
@@ -21,7 +21,7 @@ class LinkDivisionEleveManager extends Manager
         }
     }
 
-    public function isValideEleve($code,&$error){
+    public function isValideEleve($code,&$error): bool{
         if (preg_match('/[0-9]{7}/',$code)==1){
             return true;
         } else {

@@ -1,3 +1,8 @@
+<?php
+/**
+* @var string $titlebox
+ */
+?>
 <div class="box-header with-border">
     <h3 class="box-title"><?= $titlebox;?></h3>
     <div class="box-tools pull-right">

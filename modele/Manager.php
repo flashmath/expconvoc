@@ -2,6 +2,8 @@
 
 namespace DIU\Logixee\Model;
 
+use \PDO;
+
 class Manager
 {
     protected $db;
@@ -11,7 +13,7 @@ class Manager
         $this->db = $this->dbConnect();
     }
 
-    protected function dbConnect(){
+    protected function dbConnect(): PDO{
 
         //$bdd = new \PDO('mysql:host=localhost;dbname=expconvoc;charset=utf8', 'test', '2487fa');
 
@@ -20,8 +22,7 @@ class Manager
         $dbname=$database['dbname'];
         $username=$database['username'];
         $password=$database['password'];
-        $bdd = new \PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8',$username,$password);
-        return $bdd;
+        return new PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8',$username,$password);
     }
 
     public function beginTransaction(){
@@ -36,7 +37,7 @@ class Manager
         $this->db->rollBack();
     }
 
-    public function validateData($datas){
+    public function validateData($datas): array{
         $error=array();
         foreach ($datas as $key => $val) {
             $name = "isValide" . ucfirst(strtolower($key));
@@ -47,7 +48,7 @@ class Manager
         return $error;
     }
 
-    public static function isValideString($value,$len,$strict,$key,$ret,&$error){
+    public static function isValideString($value,$len,$strict,$key,$ret,&$error): bool{
         if (($strict and (strlen($value)==$len)) or (strlen($value)<=$len)){
                 return true;
             } else {
@@ -56,7 +57,7 @@ class Manager
             }
     }
 
-    public static function isValideDate($value,$key,$ret,&$error){
+    public static function isValideDate($value,$key,$ret,&$error): bool{
         if (preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $value, $matches)) {
             if (!checkdate($matches[2], $matches[1], $matches[3])) {
                 $error[$key] = $ret;
@@ -70,7 +71,7 @@ class Manager
         }
     }
 
-    public static function isValideEmail($value,$key,$ret,$nullable,&$error){
+    public static function isValideEmail($value,$key,$ret,$nullable,&$error): bool{
         if (($nullable and $value="") or filter_var($value,FILTER_VALIDATE_EMAIL)){
             return true;
         } else {
@@ -81,9 +82,9 @@ class Manager
 
     protected static function bindValue(&$req,$key,$value){
         if ($value==""){
-            $req->bindValue($key,null,\PDO::PARAM_NULL);
+            $req->bindValue($key,null,PDO::PARAM_NULL);
         } else {
-            $req->bindValue($key,$value,\PDO::PARAM_STR);
+            $req->bindValue($key,$value,PDO::PARAM_STR);
         }
     }
 }

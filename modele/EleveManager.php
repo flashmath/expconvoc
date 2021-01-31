@@ -3,6 +3,8 @@
 
 namespace DIU\Logixee\Model;
 
+use \PDO;
+
 require_once 'modele/Manager.php';
 
 class EleveManager extends Manager
@@ -12,51 +14,51 @@ class EleveManager extends Manager
         parent::__construct();
     }
 
-    public function isValideId($id,&$error){
+    public function isValideId($id,&$error): bool{
         /*
         if (strlen($id)==7){
             return true;
         } else {
-            $error['id'] = 'L\'identitfiant '.$id.' est incorrect';
+            $error['id'] = 'L\'identifiant '.$id.' est incorrect';
             return false;
         }*/
 
-        return $this::isValideString($id,7,true,'id','L\'identitfiant '.$id.' est incorrect',$error);
+        return $this::isValideString($id,7,true,'id','L\'identifiant '.$id.' est incorrect',$error);
     }
 
-    public function isValideElenoet($no,&$error){
+    public function isValideElenoet($no,&$error): bool{
         return $this::isValideString($no,5,true,'elenoet','Le numéro elenoet '.$no.' est incorrect',$error);
     }
 
-    public function isValideIne($ine,&$error){
+    public function isValideIne($ine,&$error): bool{
         return $this::isValideString($ine,11,true,'ine','L\'identifiant INE '.$ine.' est incorrect',$error);
     }
 
-    public function isValideNom($text,&$error){
+    public function isValideNom($text,&$error): bool{
         return $this::isValideString($text,100,false,'nom','Le nom est trop long',$error);
     }
 
-    public function isValidePrenom1($text,&$error){
+    public function isValidePrenom1($text,&$error): bool{
         return $this::isValideString($text,100,false,'prenom1','Le prénom1 est trop long',$error);
     }
 
-    public function isValidePrenom2($text,&$error){
+    public function isValidePrenom2($text,&$error): bool{
         return $this::isValideString($text,100,false,'prenom2','Le prénom2 est trop long',$error);
     }
 
-    public function isValidePrenom3($text,&$error){
+    public function isValidePrenom3($text,&$error): bool{
         return $this::isValideString($text,100,false,'prenom3','Le prénom3 est trop long',$error);
     }
 
-    public function isValideNaissance($text,&$error){
+    public function isValideNaissance($text,&$error): bool{
         return $this::isValideDate($text,'naissance','La date de naissance n\est pas correcte',$error);
     }
 
-    public function isValideMel($text,&$error){
+    public function isValideMel($text,&$error): bool{
         return $this::isValideEmail($text,'mel','Adresse de messagerie invalide',true,$error);
     }
 
-    public function isValideMef($text,&$error){
+    public function isValideMef($text,&$error): bool{
         return $this::isValideString($text,11,true,'mef','Code MEF invalide',$error);
     }
 
@@ -78,9 +80,9 @@ class EleveManager extends Manager
             $sql = "INSERT INTO eleves (IdEleve, elenoet, ine, nom, prenom1, prenom2, prenom3, date_naissance, mel, codemef) VALUES (:id,:elenoet,:ine,:nom,
             :prenom1,:prenom2,:prenom3,:naissance,:mel,:mef)";
             $req = $this->db->prepare($sql);
-            $req->bindValue(":id",$id, \PDO::PARAM_STR);
-            $req->bindValue(":elenoet",$elenoet,\PDO::PARAM_STR);
-            $req->bindValue(":ine",$ine,\PDO::PARAM_STR);
+            $req->bindValue(":id",$id);
+            $req->bindValue(":elenoet",$elenoet);
+            $req->bindValue(":ine",$ine);
             $req->bindValue(":nom",$nom);
             $req->bindValue(":prenom1",$prenom1);
             $this::bindValue($req,":prenom2",$prenom2);
